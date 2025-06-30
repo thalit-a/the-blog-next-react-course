@@ -13,7 +13,7 @@ export function Header() {
 
         )}
       >
-        <Link href="#">The Blog</Link>
+        <Link href="/">The Blog</Link>
       </h1>
     </header>
   );
