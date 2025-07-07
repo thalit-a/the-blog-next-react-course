@@ -3,7 +3,6 @@ import { PostRepository } from "./post-repository";
 import { resolve } from "path";
 import { readFile } from 'fs/promises';
 
-
 const ROOT_DIR = process.cwd();
 const JSON_POSTS_FILE_PATCH = resolve(
   ROOT_DIR,
@@ -35,6 +34,13 @@ export class JsonPostRepository implements PostRepository {
     return posts.filter(post => post.published);
   }
 
+  async findAll(): Promise<PostModel[]> {
+    await this.simulateWait();
+
+    const posts = await this.readFromDisk();
+    return posts;
+  }
+
   async findById(id: string): Promise<PostModel> {
     const posts = await this.findAllPublic();
     const post = posts.find(post => post.id === id);
@@ -44,7 +50,7 @@ export class JsonPostRepository implements PostRepository {
     return post;
   }
 
-  async findBySlug(slug: string): Promise<PostModel> {
+  async findBySlugPublic(slug: string): Promise<PostModel> {
     const posts = await this.findAllPublic();
     const post = posts.find(post => post.slug === slug);
 
