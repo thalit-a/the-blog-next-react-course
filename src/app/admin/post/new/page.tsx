@@ -1,10 +1,12 @@
-import { Button } from "@/components/Button";
+import { ManagePostForm } from "@/components/admin/ManagePostForm";
 
 export const dynamic = 'force-dynamic';
 
 export default async function AdminPostNewPage() {
   return (
-    <div className='py-16'>
-      <Button type='submit'>Botão em processo de criação</Button>
-    </div>)
+    <>
+      <h1>Criar Post</h1>
+      <ManagePostForm />
+    </>
+  );
 }
