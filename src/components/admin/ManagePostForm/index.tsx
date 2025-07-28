@@ -4,58 +4,96 @@ import { Button } from "@/components/Button";
 import { InputCheckbox } from "@/components/InputCheckbox";
 import { InputText } from "@/components/InputText";
 import { MarkdownEditor } from "@/components/MarkdownEditor";
-import { useState } from "react";
+import { useActionState, useState } from "react";
 import { ImageUploader } from "../ImageUploader";
+import { makePartialPublicPost, PublicPost } from "@/dto/post/dto";
+import { createPostAction } from '@/actions/post/create-post-action';
 
-export function ManagePostForm() {
-  const [contentValue, setContentValue] = useState('');
+type ManagePostFormProps = {
+  publicPost?:PublicPost;
+}
+export function ManagePostForm({ publicPost }: ManagePostFormProps) {
+
+  const initialState = {
+    formState: makePartialPublicPost(publicPost),
+    errors: [],
+  };
+  const [state, action, isPending] = useActionState(
+    createPostAction,
+    initialState,
+  );
+
+  const { formState } = state;
+  const [contentValue, setContentValue] = useState(publicPost?.content || '');
 
   return (
-    <form action='' className='mb-16'>
+    <form action={action} className='mb-16'>
     <div className='flex flex-col gap-6'>
       <InputText
-        labelText='Nome'
-        placeholder='Digite seu nome'
-        type='passoword'
+        labelText='ID'
+        name='id'
+        placeholder='ID gerado automaticamente'
+        type='text'
+        defaultValue={formState.id}
+        readOnly
       />
 
-      <ImageUploader />
+      <InputText
+        labelText='Slug'
+        name='slug'
+        placeholder='Slug gerado automaticamente'
+        type='text'
+        defaultValue={formState.slug}
+        readOnly
+      />
 
-      <InputText labelText='Sobrenome' placeholder='Digite seu sobrenome' />
-
-      <InputCheckbox labelText='Sobrenome' />
+        <InputText
+        labelText='Autor'
+        name='author'
+        placeholder='Digite o nome do autor'
+        type='text'
+        defaultValue={formState.author}
+      />
 
       <InputText
-        disabled
-        labelText='Sobrenome'
-        placeholder='Digite seu sobrenome'
-        defaultValue='Olá mundo'
+        labelText='Título'
+        name='title'
+        placeholder='Digite o título'
+        type='text'
+        defaultValue={formState.title}
+      />
+
+      <InputText
+        labelText='Excerto'
+        name='excerpt'
+        placeholder='Digite o resumo'
+        type='text'
+        defaultValue={formState.excerpt}
       />
 
       <MarkdownEditor
         labelText='Conteúdo'
-        disabled={false}
-        textAreaName='content'
-        value ={contentValue}
+        value={contentValue}
         setValue={setContentValue}
+        textAreaName='content'
+        disabled={false}
       />
 
+      <ImageUploader />
+
       <InputText
-        disabled
-        labelText='Sobrenome'
-        placeholder='Digite seu sobrenome'
+        labelText='URL da imagem de capa'
+        name='coverImageUrl'
+        placeholder='Digite a url '
+        type='text'
+        defaultValue={formState.coverImageUrl}
       />
-      <InputText
-        disabled
-        labelText='Sobrenome'
-        placeholder='Digite seu sobrenome'
-      />
-      <InputText
-        disabled
-        labelText='Sobrenome'
-        placeholder='Digite seu sobrenome'
-        defaultValue='Olá mundo'
-        readOnly
+
+      <InputCheckbox
+        labelText='Publicar?'
+        name='published'
+        type='checkbox'
+        defaultChecked={formState.published}
       />
 
       <div className='mt-4'>
