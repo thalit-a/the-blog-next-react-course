@@ -6,7 +6,9 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "migrate": "drizzle-kit migrate",
+    "seed": "tsx src/db/drizzle/seed.ts"
   },
   "dependencies": {
     "@uiw/react-md-editor": "^4.0.8",
@@ -38,7 +40,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/sanitize-html": "^2.16.0",
-    "drizzle-kit": "^0.18.1",
+    "drizzle-kit": "^0.30.6",
     "eslint": "^9",
     "eslint-config-next": "15.3.0",
     "tailwindcss": "^4",

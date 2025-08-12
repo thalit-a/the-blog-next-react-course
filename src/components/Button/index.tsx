@@ -1,10 +1,10 @@
-import clsx from "clsx";
+import clsx from 'clsx';
 
 type ButtonVariants = 'default' | 'ghost' | 'danger';
 type ButtonSizes = 'sm' | 'md' | 'lg';
 
 type ButtonProps = {
-  variant?:ButtonVariants;
+  variant?: ButtonVariants;
   size?: ButtonSizes;
 } & React.ComponentProps<'button'>;
 
@@ -51,7 +51,8 @@ export function Button({
     'disabled:bg-slate-200',
     'disabled:text-slate-400',
     'disabled:cursor-not-allowed',
+    props.className,
   );
 
-  return <button className={buttonClasses} { ...props } />;
+  return <button {...props} className={buttonClasses} />;
 }
